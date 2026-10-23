@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $sql="INSERT INTO students(student_name,gender,email,phone,dob,password,department,course,address)
           VALUES(?,?,?,?,?,?,?,?,?)";
    $stmt = $conn->prepare($sql);
-
 $stmt->bind_param(
     "sssssssss",
     $student_name,
@@ -27,13 +26,11 @@ $stmt->bind_param(
     $course,
     $address
 );
-
 if ($stmt->execute()) {
     echo "<script>alert('Student Registered Successfully!');</script>";
 } else {
     echo "Error: " . $stmt->error;
 }
-
 $stmt->close();
 }
 ?>
@@ -47,7 +44,6 @@ body {
     background: navy;
     font-family: Arial, sans-serif;
 }
-
 .container {
     width: 500px;
     max-width: 90%;
@@ -114,7 +110,6 @@ courses=["Structural Engineering","Surveying","Construction"];
 }else if (dept.value==="MECH"){
 courses=["Themodynamics","Autmobile","Manufacturing"];
 }
-
 courses.forEach(course=>{
 let opt=document.createElement("option");
 opt.value=course;
@@ -123,33 +118,25 @@ courseselect.appendChild(opt);
 });
 }
 </script>
-
 <body>
 <div class="container">
 <h2>Student Registration System</h2>
 <form method= "post" action="">
 <label>Student Name</label>
 <input type="text" name="student_name" required>
-
 <label>Gender</label>
 <div class="gender">
 <input type="radio" name="gender" value="male" required>Male
 <input type="radio" name="gender" value="female" required>Female
 </div>
-
 <label>Email</label>
 <input type="email" name="email" required>
-
-
 <label>Phone</label>
 <input type="text" name="phone" required>
-
 <label>Date of Birth</label>
 <input type="date" name="dob" required>
-
 <label>Password</label>
 <input type="password" name="password" required>
-
 <label>Department</label>
 <div class="dept">
 <input type="radio" name="department" value="IT" onclick="updatecourses()"required>IT
@@ -158,21 +145,14 @@ courseselect.appendChild(opt);
 <input type="radio" name="department" value="ECE" onclick="updatecourses()"required>ECE
 <input type="radio" name="department" value="CIVIL" onclick="updatecourses()"required>CIVIL
 <input type="radio" name="department" value="MECH" onclick="updatecourses()"required>MECH
-
 </div>
-
 <label>Course</label>
 <select name="course" id="course" required>
 <option value="">select current course</option>
 </select>
-
 <label>Address</label>
 <textarea name="address" rows="3" required></textarea>
-
 <button type="submit">Register</button>
-
-
-
 </form>
 </body>
 </html>
