@@ -1,44 +1,5 @@
-
 <?php
-$conn = new mysqli("localhost", "root", "", "studentdb");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-if (isset($_POST['delete_id'])) {
-    $id = (int) $_POST['delete_id'];
-
-    $stmt = $conn->prepare("DELETE FROM students WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->close();
-
-    header("Location: students.php");
-    exit();
-}
-if (isset($_POST['update'])) {
-    $id = (int) $_POST['id'];
-    $name = $_POST['student_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $department = $_POST['department'];
-    $course = $_POST['course'];
-
-    $stmt = $conn->prepare(
-        "UPDATE students SET student_name=?, email=?, phone=?,
-         department=?, course=? WHERE id=?"
-    );
-
-    $stmt->bind_param(
-        "sssssi",
-        $name, $email, $phone, $department, $course, $id
-    );
-
-    $stmt->execute();
-    $stmt->close();
-
-    header("Location: students.php");
-    exit();
-}
+require_once "config/database.php";
 $editStudent = null;
 if (isset($_GET['edit'])) {
     $id = (int) $_GET['edit'];
@@ -105,7 +66,7 @@ $result = $conn->query("SELECT * FROM students ORDER BY id ASC");
 <?php if ($editStudent) { ?>
     <h3>Edit Student Details</h3>
 
-    <form method="POST" action="students.php">
+    <form method="POST" action="edit.php">
         <input type="hidden" name="id"
                value="<?php echo $editStudent['id']; ?>">
 
@@ -165,7 +126,7 @@ $result = $conn->query("SELECT * FROM students ORDER BY id ASC");
                 Edit
             </a>
 
-            <form method="POST" action="students.php"
+            <form method="POST" action="delete.php"
                   style="display:inline"
                   onsubmit="return confirm('Delete this student?');">
 
